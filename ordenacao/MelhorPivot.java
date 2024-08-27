@@ -15,29 +15,28 @@ class MelhorPivot {
         int i = sc.nextInt();
         int j = sc.nextInt();
 
-        int menor_i = 0;
-        int maior_i = 0;
-        int menor_j = 0;
-        int maior_j = 0;
-        for (int k = 0; k < v.length; k++) {
-            if (k != i) {
-                if (v[k] < v[i]) menor_i += 1;
-                else maior_i += 1;
-            }
-            if (k != j) {
-                if (v[k] < v[j]) menor_j += 1;
-                else maior_j += 1;
-            }   
-        }
+        int menores_i = 0;
+		int menores_j = 0;
+		int maiores_i = 0;
+		int maiores_j = 0;
 
-        if (menor_i == 0 || maior_i == 0) System.out.println(j);
-        else if (menor_j == 0 || maior_j == 0) System.out.println(i);
-        else {
-            int diff_i = Math.abs(menor_i - maior_i);
-            int diff_j = Math.abs(menor_j - maior_j);
-            if (diff_i <= diff_j) System.out.println(i);
-            else System.out.println(j);
-        }
+		for (int k = 0; k < v.length; k++){
+			if (k != i) {
+				if (v[k] > v[i]) maiores_i += 1;
+				else menores_i += 1;
+			}
+			if (k != j) {
+				if (v[k] > v[j]) maiores_j += 1;
+				else menores_j += 1;
+			}
+			
+		}
+
+		int diff_i = Math.abs(maiores_i - menores_i);
+		int diff_j = Math.abs(maiores_j - menores_j);
+
+		if (diff_i <= diff_j) System.out.println(i);
+		else System.out.println(j);
         
     }
     
