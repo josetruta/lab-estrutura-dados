@@ -6,15 +6,25 @@ class InverteFrase {
         
         Scanner sc = new Scanner(System.in);
 
-        String[] seq = sc.nextLine().split(" ");
-        PilhaS pilha = new PilhaS(seq.length);
-        for (int i = 0; i < seq.length; i++) pilha.push(seq[i]);
+        String seq = sc.nextLine();
+        PilhaS pilha = new PilhaS(seq.length());
+
+        String palavra = "";
+        for (int i = 0; i < seq.length(); i++) {
+            if (seq.substring(i, i+1).equals(" ")) {
+                pilha.push(palavra);
+                palavra = "";
+            } else {
+                palavra += seq.substring(i, i+1);
+            }
+        }
+        pilha.push(palavra);
 
         String out = "";
         while (!pilha.isEmpty()) {
             out += pilha.pop() + " ";
         }
-
+        
         System.out.println(out.trim());
 
     }
@@ -56,25 +66,6 @@ class PilhaS {
 
     public int size() {
         return this.topo + 1;
-    }
-
-    public void inverte() {
-        PilhaS primeiro = new PilhaS(this.size());
-
-        while (!this.isEmpty()) {
-            primeiro.push(this.pop());
-        }
-
-        PilhaS segundo = new PilhaS(primeiro.size());
-        
-        while (!primeiro.isEmpty()) {
-            segundo.push(primeiro.pop());
-        }
-
-        while (!segundo.isEmpty()) {
-            this.push(segundo.pop());
-        }
-
     }
 
 }
