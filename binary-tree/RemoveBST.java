@@ -1,11 +1,37 @@
-
 import java.util.ArrayList;
+import java.util.Scanner;
 
-public class BST {
+class RemoveBST {
+
+    public static void main(String[] args) {
+        
+        Scanner sc = new Scanner(System.in);
+
+        String[] seq = sc.nextLine().split(" ");
+
+        BSTRem bst = new BSTRem();
+        for (String s : seq) bst.add(Integer.parseInt(s));
+
+        String[] toRemove = sc.nextLine().split(" ");
+
+        for (String s : toRemove) {
+            Node nodeToRemove = bst.search(Integer.parseInt(s));
+            if (nodeToRemove == null) System.out.println(bst.toString());
+            else {
+                bst.remove(nodeToRemove);
+                System.out.println(bst.toString());
+            }
+        }
+
+    }
+    
+}
+
+class BSTRem {
     
     private Node root;
 
-    public BST() {
+    public BSTRem() {
         this.root = null;
     }
 
@@ -62,16 +88,6 @@ public class BST {
         else return min(node.left);
     }
 
-    public Node max() {
-        if (this.isEmpty()) return null;
-        return this.max(this.root);
-    }
-
-    private Node max(Node node) {
-        if (node.right == null) return node;
-        else return max(node.left);
-    }
-
     public Node sucessor(Node node) {
         if (node == null) return null;
         if (node.right != null) return this.min(node.right);
@@ -81,26 +97,6 @@ public class BST {
                 aux = aux.parent;
             return aux;
         }
-    }
-
-    public Node predecessor(Node node) {
-        if (node == null) return null;
-        if (node.left != null) return this.max(node.left);
-        else {
-            Node aux = node.parent;
-            while (aux != null && aux.value > node.value) 
-                aux = aux.parent;
-            return aux;
-        }
-    }
-
-    public int height() {
-        return this.height(this.root);
-    }
-
-    private int height(Node node) {
-        if (node == null) return -1;
-        else return 1 + Math.max(height(node.left), height(node.right));
     }
 
     public void remove(Node node) {
@@ -136,43 +132,7 @@ public class BST {
         }
     } 
 
-    public void preOrder() {
-        this.preOrder(this.root);
-    }
-
-    private void preOrder(Node node) {
-        if (node != null) {
-            System.out.println(node.value);
-            this.preOrder(node.left);
-            this.preOrder(node.right);
-        }
-    }
-
-    public void inOrder() {
-        this.inOrder(this.root);
-    }
-
-    private void inOrder(Node node) {
-        if (node != null) {
-            this.inOrder(node.left);
-            System.out.println(node.value);
-            this.inOrder(node.right);
-        }
-    }
-
-    public void posOrder() {
-        this.posOrder(this.root);
-    }
-
-    private void posOrder(Node node) {
-        if (node != null) {
-            this.posOrder(node.left);
-            this.posOrder(node.right);
-            System.out.println(node.value);
-        }
-    }
-
-    public ArrayList<Integer> toArrayList() {
+    private ArrayList<Integer> toArrayList() {
         ArrayList<Integer> arr = new ArrayList<Integer>();
         this.preOrderList(this.root, arr);
         return arr;
@@ -186,14 +146,18 @@ public class BST {
         }
     }
 
-    public boolean equals(BST other) {
-        ArrayList<Integer> arr = this.toArrayList();
-        ArrayList<Integer> other_arr = other.toArrayList();
-
-        for (int i = 0; i < arr.size(); i++)
-            if (arr.get(i) != other_arr.get(i)) return false;
-        
-        return true;
+    public String toString() {
+        if (this.isEmpty()) return "null";
+        else {
+            String ans = "";
+            ArrayList<Integer> arr = this.toArrayList();
+            for (int i = 0; i < arr.size(); i++) {
+                if (i == 0) ans += "[";
+                if (i != arr.size() - 1) ans += Integer.toString(arr.get(i)) + ", ";
+                else ans += Integer.toString(arr.get(i)) + "]";
+            } 
+            return ans;
+        }
     }
 }
 
@@ -220,3 +184,4 @@ class Node {
         return this.left == null && this.right != null;
     }
 }
+
