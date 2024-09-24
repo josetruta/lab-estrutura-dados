@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class BST {
     
@@ -194,6 +195,22 @@ public class BST {
             if (arr.get(i) != other_arr.get(i)) return false;
         
         return true;
+    }
+
+    public ArrayList<Node> BFS() {
+        ArrayList<Node> ans = new ArrayList<Node>();
+        LinkedList<Node> queue = new LinkedList<Node>(); 
+
+        queue.addLast(this.root);
+
+        while (!queue.isEmpty()) {
+            Node n = queue.getFirst();
+            ans.add(n);
+            if (n.left != null) queue.addLast(n.left);
+            if (n.right != null) queue.addLast(n.right);
+        }
+
+        return ans;
     }
 }
 
