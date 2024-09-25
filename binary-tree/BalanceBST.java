@@ -9,22 +9,18 @@ class BalanceBST {
         String[] seq = sc.nextLine().split(" ");
 
         BSTBal bst = new BSTBal();
-        for (String s : seq) bst.add(Integer.parseInt(s));
-
-        bst.preOrder();    
+        for (String s : seq) bst.add(Integer.parseInt(s));   
         
-        System.out.println(bst.text.trim());
+        System.out.println(bst.balance().trim());
     }
 }
 
 class BSTBal {
     
     private Node root;
-    public String text;
 
     public BSTBal() {
         this.root = null;
-        this.text = "";
     }
 
     public boolean isEmpty() {
@@ -67,17 +63,16 @@ class BSTBal {
         else return 1 + Math.max(height(node.left), height(node.right));
     }
 
-    public void preOrder() {
-        this.preOrder(this.root);
+    public String balance() {
+        return this.balance(this.root);
     }
 
-    private void preOrder(Node node) {
+    private String balance(Node node) {
         if (node != null) {
             int balance = this.height(node.left) - this.height(node.right);
-            this.text += node.value + "," + balance + " ";
-            this.preOrder(node.left);
-            this.preOrder(node.right);
+            return node.value + "," + balance + " " + this.balance(node.left) + this.balance(node.right);
         }
+        return "";
     }
 }
 
