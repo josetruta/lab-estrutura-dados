@@ -1,27 +1,30 @@
 import java.util.Scanner;
 
-class SomaFolhas {
-
+class BalanceBST {
+    
     public static void main(String[] args) {
-        
+
         Scanner sc = new Scanner(System.in);
 
         String[] seq = sc.nextLine().split(" ");
 
-        BSTSf bst = new BSTSf();
+        BSTBal bst = new BSTBal();
         for (String s : seq) bst.add(Integer.parseInt(s));
 
-        System.out.println(bst.sum());
+        bst.preOrder();    
+        
+        System.out.println(bst.text.trim());
     }
-    
 }
 
-class BSTSf {
+class BSTBal {
     
     private Node root;
+    public String text;
 
-    public BSTSf() {
+    public BSTBal() {
         this.root = null;
+        this.text = "";
     }
 
     public boolean isEmpty() {
@@ -55,16 +58,26 @@ class BSTSf {
         }
     }
 
-    public int sum() {
-        return this.sum(this.root);
+    public int height() {
+        return this.height(this.root);
     }
 
-    private int sum(Node node) {
+    private int height(Node node) {
+        if (node == null) return -1;
+        else return 1 + Math.max(height(node.left), height(node.right));
+    }
+
+    public void preOrder() {
+        this.preOrder(this.root);
+    }
+
+    private void preOrder(Node node) {
         if (node != null) {
-            if (node.isLeaf()) return node.value + this.sum(node.left) + this.sum(node.right);
-            else return this.sum(node.left) + this.sum(node.right);
+            int balance = this.height(node.left) - this.height(node.right);
+            this.text += node.value + "," + balance + " ";
+            this.preOrder(node.left);
+            this.preOrder(node.right);
         }
-        return 0;
     }
 }
 
@@ -78,9 +91,4 @@ class Node {
     public Node(int value) {
         this.value = value;
     }
-
-    public boolean isLeaf() {
-        return this.left == null && this.right == null;
-    }
 }
-

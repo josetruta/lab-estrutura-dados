@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 class ContaInternos {
@@ -12,13 +11,7 @@ class ContaInternos {
         BSTCi bst = new BSTCi();
         for (String s : seq) bst.add(Integer.parseInt(s));
     
-        ArrayList<Node> arr = bst.preOrder();
-        int count = 0;
-
-        for (Node n : arr) 
-            if (!n.isLeaf()) count++;
-
-        System.out.println(count);
+        System.out.println(bst.contInternos());
     }
     
 }
@@ -62,18 +55,16 @@ class BSTCi {
         }
     }
 
-    public ArrayList<Node> preOrder() {
-        ArrayList<Node> arr = new ArrayList<Node>();
-        this.preOrder(this.root, arr);
-        return arr;
+    public int contInternos() {
+        return this.contInternos(this.root);
     }
 
-    private void preOrder(Node node, ArrayList<Node> arr) {
+    private int contInternos(Node node) {
         if (node != null) {
-            arr.add(node);
-            this.preOrder(node.left, arr);
-            this.preOrder(node.right, arr);
+            if (!node.isLeaf()) return 1 + this.contInternos(node.left) + this.contInternos(node.right);
+            return this.contInternos(node.left) + this.contInternos(node.right);
         }
+        return 0;
     }
 }
 
